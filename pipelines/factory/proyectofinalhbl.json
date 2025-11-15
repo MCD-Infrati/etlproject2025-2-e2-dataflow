@@ -1,0 +1,9 @@
+{
+	"name": "proyectofinalhbl",
+	"location": "chilecentral",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "e023295e-525c-4eb8-bb2a-026dda518d1d",
+		"tenantId": "e994072b-523e-4bfe-86e2-442c5e10b244"
+	}
+}

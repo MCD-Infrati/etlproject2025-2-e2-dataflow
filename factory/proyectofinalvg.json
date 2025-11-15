@@ -1,0 +1,9 @@
+{
+	"name": "proyectofinalvg",
+	"location": "westus3",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "699e6ac5-15a5-4798-8ad6-d561aa734d2e",
+		"tenantId": "e994072b-523e-4bfe-86e2-442c5e10b244"
+	}
+}

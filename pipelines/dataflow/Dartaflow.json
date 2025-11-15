@@ -1,0 +1,14 @@
+{
+	"name": "Dartaflow",
+	"properties": {
+		"type": "Flowlet",
+		"typeProperties": {
+			"sources": [],
+			"sinks": [],
+			"transformations": [],
+			"scriptLines": [
+				""
+			]
+		}
+	}
+}

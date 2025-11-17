@@ -76,7 +76,7 @@
 					"description": "Se realiza el quinto join con la tabla typequality."
 				},
 				{
-					"name": "aggregate1",
+					"name": "aggregate2",
 					"description": "Agregación de Baños y Habitaciones"
 				}
 			],
@@ -201,11 +201,11 @@
 				"     ignoreSpaces: false,",
 				"     partitionBy('hash', 1),",
 				"     broadcast: 'auto')~> join5",
-				"join5 aggregate(groupBy(amesdbtemp@pid),",
+				"floordetail aggregate(groupBy(pid),",
 				"     TotalFullBath = sum({Full Bath}),",
 				"          TotalHalfBath = sum({Half Bath}),",
 				"          TotalBedrooms = sum(bedrooms),",
-				"     partitionBy('hash', 1)) ~> aggregate1"
+				"     partitionBy('hash', 1)) ~> aggregate2"
 			]
 		}
 	}

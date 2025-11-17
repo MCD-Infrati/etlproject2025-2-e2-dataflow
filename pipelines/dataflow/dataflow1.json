@@ -19,10 +19,66 @@
 					},
 					"name": "saleproperty",
 					"description": "se importa la tabla saleproperty"
+				},
+				{
+					"dataset": {
+						"referenceName": "floordetail",
+						"type": "DatasetReference"
+					},
+					"name": "floordetail",
+					"description": "se importa la tabla floordetail"
+				},
+				{
+					"dataset": {
+						"referenceName": "mssubclass",
+						"type": "DatasetReference"
+					},
+					"name": "mssubclass",
+					"description": "se importa la tabla mssubclass"
+				},
+				{
+					"dataset": {
+						"referenceName": "mszoning",
+						"type": "DatasetReference"
+					},
+					"name": "mszoning",
+					"description": "se importa la tabla mszoning"
+				},
+				{
+					"dataset": {
+						"referenceName": "typequality",
+						"type": "DatasetReference"
+					},
+					"name": "typequality",
+					"description": "se importa la tabla typequality"
 				}
 			],
 			"sinks": [],
-			"transformations": [],
+			"transformations": [
+				{
+					"name": "join1",
+					"description": "Se realiza el primer join entre las tablas: amesdbtemp y SaleProperties."
+				},
+				{
+					"name": "join2",
+					"description": "Se realiza el segundo join con la tabla floordetail."
+				},
+				{
+					"name": "join3",
+					"description": "Se realiza el tercer join con la tabla mssubclass."
+				},
+				{
+					"name": "join4",
+					"description": "Se realiza el cuarto join con la tabla mszoning."
+				},
+				{
+					"name": "join5",
+					"description": "Se realiza el quinto join con la tabla typequality."
+				},
+				{
+					"name": "select1"
+				}
+			],
 			"scriptLines": [
 				"source(output(",
 				"          {Exter Cond} as long,",
@@ -72,7 +128,127 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> saleproperty"
+				"     format: 'table') ~> saleproperty",
+				"source(output(",
+				"          pid as long,",
+				"          Floor as long,",
+				"          bedrooms as long,",
+				"          {Full Bath} as long,",
+				"          {Half Bath} as long",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> floordetail",
+				"source(output(",
+				"          description as string,",
+				"          code as long",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> mssubclass",
+				"source(output(",
+				"          id as long,",
+				"          description as string,",
+				"          code as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> mszoning",
+				"source(output(",
+				"          id as long,",
+				"          code as string,",
+				"          description as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> typequality",
+				"amesdbtemp, saleproperty join(amesdbtemp@pid == saleproperty@pid,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     partitionBy('hash', 1),",
+				"     broadcast: 'auto')~> join1",
+				"join1, floordetail join(amesdbtemp@pid == floordetail@pid,",
+				"     joinType:'left',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> join2",
+				"join2, mssubclass join({MS SubClass} == code,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> join3",
+				"join3, mszoning join({MS Zoning} == id,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> join4",
+				"join4, typequality join({Exter Qual} == typequality@id",
+				"     && {Exter Cond} == typequality@id",
+				"     && {Heating QC} == typequality@id",
+				"     && {Kitchen Qual} == typequality@id,",
+				"     joinType:'left',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> join5",
+				"join5 select(mapColumn(",
+				"          {Exter Cond},",
+				"          {Exter Qual},",
+				"          {Heating QC},",
+				"          {Kitchen Qual},",
+				"          {MS Zoning},",
+				"          pid = amesdbtemp@pid,",
+				"          {Roof Style},",
+				"          {Roof Matl},",
+				"          {Exterior 1st},",
+				"          {Exterior 2nd},",
+				"          {Mas Vnr Type},",
+				"          {Mas Vnr Area},",
+				"          foundation,",
+				"          heating,",
+				"          {Central Air},",
+				"          electrical,",
+				"          {1st Flr SF},",
+				"          {2nd Flr SF},",
+				"          {Low Qual Fin SF},",
+				"          {Kitchen AbvGr},",
+				"          {TotRms AbvGrd},",
+				"          functional,",
+				"          fireplaces,",
+				"          {Fireplace Qu},",
+				"          {Paved Drive},",
+				"          {Wood Deck SF},",
+				"          {Open Porch SF},",
+				"          {Enclosed Porch},",
+				"          {3Ssn Porch},",
+				"          {Screen Porch},",
+				"          fence,",
+				"          {MS SubClass},",
+				"          pid = saleproperty@pid,",
+				"          {Sale Date},",
+				"          {Sale Type},",
+				"          {Sale Condition},",
+				"          saleprice,",
+				"          pid = floordetail@pid,",
+				"          Floor,",
+				"          bedrooms,",
+				"          {Full Bath},",
+				"          {Half Bath},",
+				"          description = mssubclass@description,",
+				"          code = mssubclass@code,",
+				"          id = mszoning@id,",
+				"          description = mszoning@description,",
+				"          code = mszoning@code,",
+				"          id = typequality@id,",
+				"          code = typequality@code,",
+				"          description = typequality@description",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1"
 			]
 		}
 	}

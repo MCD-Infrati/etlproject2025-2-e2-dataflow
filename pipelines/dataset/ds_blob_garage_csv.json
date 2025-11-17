@@ -1,0 +1,23 @@
+{
+	"name": "ds_blob_garage_csv",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Almacenamiento_mongoDB",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "garage.csv",
+				"container": "salida-mongodb"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}

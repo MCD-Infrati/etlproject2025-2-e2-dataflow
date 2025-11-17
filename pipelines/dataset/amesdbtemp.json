@@ -1,5 +1,5 @@
 {
-	"name": "AzurePostgreSqlTable1",
+	"name": "amesdbtemp",
 	"properties": {
 		"description": "Tabla de hechos: amesdbtemp (35 columnas) : 2930 filas",
 		"linkedServiceName": {

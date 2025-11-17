@@ -11,6 +11,14 @@
 					},
 					"name": "amesdbtemp",
 					"description": "se importa la tabla de hechos: amesdbtemp"
+				},
+				{
+					"dataset": {
+						"referenceName": "saleproperty",
+						"type": "DatasetReference"
+					},
+					"name": "saleproperty",
+					"description": "se importa la tabla saleproperty"
 				}
 			],
 			"sinks": [],
@@ -53,7 +61,18 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> amesdbtemp"
+				"     format: 'table') ~> amesdbtemp",
+				"source(output(",
+				"          pid as long,",
+				"          {Sale Date} as timestamp,",
+				"          {Sale Type} as string,",
+				"          {Sale Condition} as string,",
+				"          saleprice as long",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> saleproperty"
 			]
 		}
 	}

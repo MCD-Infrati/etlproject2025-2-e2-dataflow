@@ -53,7 +53,11 @@
 					"description": "se importa la tabla typequality"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"name": "sink1"
+				}
+			],
 			"transformations": [
 				{
 					"name": "join1",
@@ -174,7 +178,7 @@
 				"     ignoreSpaces: false,",
 				"     partitionBy('hash', 1),",
 				"     broadcast: 'auto')~> join1",
-				"join1, floordetail join(amesdbtemp@pid == floordetail@pid,",
+				"join1, aggregate2 join(amesdbtemp@pid == floordetail@pid,",
 				"     joinType:'left',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
@@ -205,7 +209,11 @@
 				"     TotalFullBath = sum({Full Bath}),",
 				"          TotalHalfBath = sum({Half Bath}),",
 				"          TotalBedrooms = sum(bedrooms),",
-				"     partitionBy('hash', 1)) ~> aggregate2"
+				"     partitionBy('hash', 1)) ~> aggregate2",
+				"join5 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1"
 			]
 		}
 	}

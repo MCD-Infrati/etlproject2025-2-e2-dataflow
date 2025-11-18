@@ -1,0 +1,98 @@
+{
+	"name": "dataflow1",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "bsmt",
+						"type": "DatasetReference"
+					},
+					"name": "bsmt"
+				},
+				{
+					"dataset": {
+						"referenceName": "garage",
+						"type": "DatasetReference"
+					},
+					"name": "garage"
+				},
+				{
+					"dataset": {
+						"referenceName": "misc",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				},
+				{
+					"dataset": {
+						"referenceName": "pool",
+						"type": "DatasetReference"
+					},
+					"name": "pool"
+				}
+			],
+			"sinks": [],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          {_id} as ({$oid} as string),",
+				"          PID as ({$numberLong} as string),",
+				"          {Bsmt Qual} as string,",
+				"          {Bsmt Cond} as string,",
+				"          {Bsmt Exposure} as string,",
+				"          {BsmtFin Type 1} as string,",
+				"          {BsmtFin SF 1} as ({$numberLong} as string),",
+				"          {BsmtFin Type 2} as string,",
+				"          {BsmtFin SF 2} as ({$numberLong} as string),",
+				"          {Bsmt Unf SF} as ({$numberLong} as string),",
+				"          {Total Bsmt SF} as ({$numberLong} as string),",
+				"          {Bsmt Full Bath} as ({$numberLong} as string),",
+				"          {Bsmt Half Bath} as ({$numberLong} as string)",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     documentForm: 'documentPerLine',",
+				"     partitionBy('hash', 1)) ~> bsmt",
+				"source(output(",
+				"          {_id} as ({$oid} as string),",
+				"          Order as ({$numberLong} as string),",
+				"          PID as ({$numberLong} as string),",
+				"          {Garage Type} as string,",
+				"          {Garage Yr Blt} as ({$numberLong} as string),",
+				"          {Garage Finish} as string,",
+				"          {Garage Cars} as ({$numberLong} as string),",
+				"          {Garage Area} as ({$numberLong} as string),",
+				"          {Garage Qual} as string,",
+				"          {Garage Cond} as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     documentForm: 'documentPerLine') ~> garage",
+				"source(output(",
+				"          {_id} as ({$oid} as string),",
+				"          PID as ({$numberLong} as string),",
+				"          {Misc Feature} as string,",
+				"          {Misc Val} as ({$numberLong} as string)",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     documentForm: 'documentPerLine') ~> source1",
+				"source(output(",
+				"          {_id} as ({$oid} as string),",
+				"          PID as ({$numberLong} as string),",
+				"          {Pool Area} as ({$numberLong} as string),",
+				"          {Pool QC} as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     documentForm: 'documentPerLine') ~> pool"
+			]
+		}
+	}
+}

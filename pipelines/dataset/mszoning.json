@@ -1,0 +1,17 @@
+{
+	"name": "mszoning",
+	"properties": {
+		"description": "Tabla de dimensiones: mszoning (3 columnas) : 8 filas",
+		"linkedServiceName": {
+			"referenceName": "NeonConn",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzurePostgreSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "public",
+			"table": "mszoning"
+		}
+	}
+}

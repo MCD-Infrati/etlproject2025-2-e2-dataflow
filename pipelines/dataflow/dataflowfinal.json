@@ -1,0 +1,85 @@
+{
+	"name": "dataflowfinal",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "output_mongo",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				},
+				{
+					"dataset": {
+						"referenceName": "output_data",
+						"type": "DatasetReference"
+					},
+					"name": "source2"
+				}
+			],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "join1"
+				}
+			],
+			"scriptLines": [
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source1",
+				"source(output(",
+				"          PID as integer,",
+				"          {MS SubClass} as short,",
+				"          {MS Zoning} as string,",
+				"          {Roof Style} as string,",
+				"          {Roof Matl} as string,",
+				"          {Exterior 1st} as string,",
+				"          {Exterior 2nd} as string,",
+				"          {Mas Vnr Type} as string,",
+				"          {Mas Vnr Area} as short,",
+				"          {Exter Qual} as string,",
+				"          {Exter Cond} as string,",
+				"          Foundation as string,",
+				"          Heating as string,",
+				"          {Heating QC} as string,",
+				"          {Central Air} as boolean,",
+				"          electrical as string,",
+				"          {1st Flr SF} as short,",
+				"          {2nd Flr SF} as short,",
+				"          {Low Qual Fin SF} as short,",
+				"          FullBath as short,",
+				"          HalfBath as short,",
+				"          {Bedrooms AbvGr} as short,",
+				"          {Kitchen AbvGr} as short,",
+				"          {Kitchen Qual} as string,",
+				"          {TotRms AbvGrd} as short,",
+				"          Functional as string,",
+				"          Fireplaces as short,",
+				"          {Fireplace Qu} as string,",
+				"          {Paved Drive} as string,",
+				"          {Wood Deck SF} as short,",
+				"          {Open Porch SF} as short,",
+				"          {Enclosed Porch} as short,",
+				"          {3Ssn Porch} as short,",
+				"          {Screen Porch} as short,",
+				"          Fence as string,",
+				"          MoSold as short,",
+				"          YrSold as short,",
+				"          {Sale Type} as string,",
+				"          {Sale Condition} as string,",
+				"          saleprice as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source2",
+				"source1, source2 join(ERROR_FUNCTION('') == ERROR_FUNCTION(''),",
+				"     joinType:'outer',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> join1"
+			]
+		}
+	}
+}

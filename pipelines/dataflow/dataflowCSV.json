@@ -118,8 +118,7 @@
 				"          {Overall Cond},",
 				"          YearBuilt,",
 				"          YearRemodAdd,",
-				"          Neighborhoodcode = code,",
-				"          code",
+				"          Neighborhoodcode = code",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select1"

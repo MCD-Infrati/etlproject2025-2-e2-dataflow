@@ -68,12 +68,12 @@
 				"          {Bsmt Cond} as string,",
 				"          {Bsmt Exposure} as string,",
 				"          {BsmtFin Type 1} as string,",
-				"          {BsmtFin SF 1} as short,",
+				"          {BsmtFin SF 1} as integer,",
 				"          {BsmtFin Type 2} as string,",
-				"          {BsmtFin SF 2} as short,",
-				"          {Bsmt Unf SF} as short,",
-				"          {Total Bsmt SF} as short,",
-				"          {Bsmt Full Bath} as short,",
+				"          {BsmtFin SF 2} as integer,",
+				"          {Bsmt Unf SF} as integer,",
+				"          {Total Bsmt SF} as integer,",
+				"          {Bsmt Full Bath} as integer,",
 				"          {Bsmt Half Bath} as boolean",
 				"     ),",
 				"     allowSchemaDrift: true,",
@@ -185,7 +185,12 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> Eliminarconteo",
-				"Eliminarconteo derive() ~> derivedColumn1"
+				"Eliminarconteo derive({BsmtFin SF 1} = iif(isNull({BsmtFin SF 1}), 0, {BsmtFin SF 1}),",
+				"          {BsmtFin SF 2} = iif(isNull({BsmtFin SF 2}), 0, {BsmtFin SF 2}),",
+				"          {Bsmt Unf SF} = iif(isNull({Bsmt Unf SF}), 0, {Bsmt Unf SF}),",
+				"          {Total Bsmt SF} = iif(isNull({Total Bsmt SF}), 0, {Total Bsmt SF}),",
+				"          {Bsmt Full Bath} = iif(isNull({Bsmt Full Bath}), 0, {Bsmt Full Bath}),",
+				"          {Bsmt Half Bath} = iif(isNull({Bsmt Half Bath}), 0, {Bsmt Half Bath})) ~> derivedColumn1"
 			]
 		}
 	}

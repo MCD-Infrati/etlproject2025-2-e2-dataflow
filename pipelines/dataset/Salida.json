@@ -1,0 +1,23 @@
+{
+	"name": "Salida",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Almacenamiento_mongoDB",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "Salida.csv",
+				"container": "salida-mongodb"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}

@@ -1,5 +1,5 @@
 {
-	"name": "dataflow2",
+	"name": "dataflow_transformaciones",
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
@@ -13,12 +13,21 @@
 					"description": "Data obtenida de la consulta sql de Neon."
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"name": "sink1"
+				}
+			],
 			"transformations": [],
 			"scriptLines": [
 				"source(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> fullamesdbtemp"
+				"     ignoreNoFilesFound: false,",
+				"     partitionBy('hash', 1)) ~> fullamesdbtemp",
+				"fullamesdbtemp sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1"
 			]
 		}
 	}

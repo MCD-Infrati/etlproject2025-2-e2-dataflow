@@ -185,7 +185,7 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> Eliminarconteo",
-				"Eliminarconteo derive() ~> derivedColumn1"
+				"Eliminarconteo derive({BsmtFin SF 1} = iif(isNull({BsmtFin SF 1}), 0, {BsmtFin SF 1})) ~> derivedColumn1"
 			]
 		}
 	}

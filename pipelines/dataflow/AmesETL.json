@@ -17,41 +17,6 @@
 						"type": "DatasetReference"
 					},
 					"name": "amesdbtemp"
-				},
-				{
-					"dataset": {
-						"referenceName": "mssubclass",
-						"type": "DatasetReference"
-					},
-					"name": "MSSubClass"
-				},
-				{
-					"dataset": {
-						"referenceName": "mszoning",
-						"type": "DatasetReference"
-					},
-					"name": "MSZoning"
-				},
-				{
-					"dataset": {
-						"referenceName": "typequality",
-						"type": "DatasetReference"
-					},
-					"name": "TypeQuality"
-				},
-				{
-					"dataset": {
-						"referenceName": "saleproperty",
-						"type": "DatasetReference"
-					},
-					"name": "SaleProperties"
-				},
-				{
-					"dataset": {
-						"referenceName": "floordetail",
-						"type": "DatasetReference"
-					},
-					"name": "FloorDetail"
 				}
 			],
 			"sinks": [],
@@ -71,27 +36,7 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> amesdbtemp",
-				"source(allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> MSSubClass",
-				"source(allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> MSZoning",
-				"source(allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> TypeQuality",
-				"source(allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> SaleProperties",
-				"source(allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> FloorDetail",
-				"AmesPropertycsv join({PID;Lot Frontage;Lot Area;Street;Alley;Lot Shape;Land Contour;Utilities;Lot Config;Land Slope;Neighborhood;Condition 1;Condition 2;Bldg Type;House Style;Overall Qual;Overall Cond;Year Built;Year Remod/Add} == ERROR_FUNCTION(''),",
+				"AmesPropertycsv, amesdbtemp join(ERROR_FUNCTION('') == ERROR_FUNCTION(''),",
 				"     joinType:'inner',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",

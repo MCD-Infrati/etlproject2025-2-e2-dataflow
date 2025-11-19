@@ -1,0 +1,15 @@
+{
+	"name": "MongoDb_misc",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "MongoDb1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "MongoDbV2Collection",
+		"schema": [],
+		"typeProperties": {
+			"collection": "misc"
+		}
+	}
+}

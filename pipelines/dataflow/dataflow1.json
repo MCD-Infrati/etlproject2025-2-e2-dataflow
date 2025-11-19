@@ -6,92 +6,186 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "bsmt",
+						"referenceName": "salidabsmt",
 						"type": "DatasetReference"
 					},
 					"name": "bsmt"
 				},
 				{
 					"dataset": {
-						"referenceName": "garage",
+						"referenceName": "salidasgarage",
 						"type": "DatasetReference"
 					},
 					"name": "garage"
 				},
 				{
 					"dataset": {
-						"referenceName": "misc",
+						"referenceName": "salidasmisc",
 						"type": "DatasetReference"
 					},
-					"name": "source1"
+					"name": "misc"
 				},
 				{
 					"dataset": {
-						"referenceName": "pool",
+						"referenceName": "salidaspool",
 						"type": "DatasetReference"
 					},
 					"name": "pool"
 				}
 			],
 			"sinks": [],
-			"transformations": [],
+			"transformations": [
+				{
+					"name": "bsmtgarage"
+				},
+				{
+					"name": "bsmtgaragemisc"
+				},
+				{
+					"name": "completo"
+				},
+				{
+					"name": "Duplicados"
+				},
+				{
+					"name": "Conteo"
+				},
+				{
+					"name": "filtroduplicados"
+				},
+				{
+					"name": "Eliminarconteo",
+					"description": "Eliminar Fila de Conteo"
+				},
+				{
+					"name": "derivedColumn1"
+				}
+			],
 			"scriptLines": [
 				"source(output(",
-				"          {_id} as ({$oid} as string),",
-				"          PID as ({$numberLong} as string),",
+				"          PID as integer,",
 				"          {Bsmt Qual} as string,",
 				"          {Bsmt Cond} as string,",
 				"          {Bsmt Exposure} as string,",
 				"          {BsmtFin Type 1} as string,",
-				"          {BsmtFin SF 1} as ({$numberLong} as string),",
+				"          {BsmtFin SF 1} as short,",
 				"          {BsmtFin Type 2} as string,",
-				"          {BsmtFin SF 2} as ({$numberLong} as string),",
-				"          {Bsmt Unf SF} as ({$numberLong} as string),",
-				"          {Total Bsmt SF} as ({$numberLong} as string),",
-				"          {Bsmt Full Bath} as ({$numberLong} as string),",
-				"          {Bsmt Half Bath} as ({$numberLong} as string)",
+				"          {BsmtFin SF 2} as short,",
+				"          {Bsmt Unf SF} as short,",
+				"          {Total Bsmt SF} as short,",
+				"          {Bsmt Full Bath} as short,",
+				"          {Bsmt Half Bath} as boolean",
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
-				"     documentForm: 'documentPerLine',",
 				"     partitionBy('hash', 1)) ~> bsmt",
 				"source(output(",
-				"          {_id} as ({$oid} as string),",
-				"          Order as ({$numberLong} as string),",
-				"          PID as ({$numberLong} as string),",
+				"          Order as short,",
+				"          PID as integer,",
 				"          {Garage Type} as string,",
-				"          {Garage Yr Blt} as ({$numberLong} as string),",
+				"          {Garage Yr Blt} as short,",
 				"          {Garage Finish} as string,",
-				"          {Garage Cars} as ({$numberLong} as string),",
-				"          {Garage Area} as ({$numberLong} as string),",
+				"          {Garage Cars} as short,",
+				"          {Garage Area} as short,",
 				"          {Garage Qual} as string,",
 				"          {Garage Cond} as string",
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false,",
-				"     documentForm: 'documentPerLine') ~> garage",
+				"     ignoreNoFilesFound: false) ~> garage",
 				"source(output(",
-				"          {_id} as ({$oid} as string),",
-				"          PID as ({$numberLong} as string),",
+				"          PID as integer,",
 				"          {Misc Feature} as string,",
-				"          {Misc Val} as ({$numberLong} as string)",
+				"          {Misc Val} as short",
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false,",
-				"     documentForm: 'documentPerLine') ~> source1",
+				"     ignoreNoFilesFound: false) ~> misc",
 				"source(output(",
-				"          {_id} as ({$oid} as string),",
-				"          PID as ({$numberLong} as string),",
-				"          {Pool Area} as ({$numberLong} as string),",
+				"          PID as integer,",
+				"          {Pool Area} as short,",
 				"          {Pool QC} as string",
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false,",
-				"     documentForm: 'documentPerLine') ~> pool"
+				"     ignoreNoFilesFound: false) ~> pool",
+				"bsmt, garage join(bsmt@PID == garage@PID,",
+				"     joinType:'left',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> bsmtgarage",
+				"bsmtgarage, misc join(bsmt@PID == misc@PID,",
+				"     joinType:'left',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> bsmtgaragemisc",
+				"bsmtgaragemisc, pool join(bsmt@PID == pool@PID,",
+				"     joinType:'left',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> completo",
+				"completo select(mapColumn(",
+				"          PID = bsmt@PID,",
+				"          {Bsmt Qual},",
+				"          {Bsmt Cond},",
+				"          {Bsmt Exposure},",
+				"          {BsmtFin Type 1},",
+				"          {BsmtFin SF 1},",
+				"          {BsmtFin Type 2},",
+				"          {BsmtFin SF 2},",
+				"          {Bsmt Unf SF},",
+				"          {Total Bsmt SF},",
+				"          {Bsmt Full Bath},",
+				"          {Bsmt Half Bath},",
+				"          Order,",
+				"          {Garage Type},",
+				"          {Garage Yr Blt},",
+				"          {Garage Finish},",
+				"          {Garage Cars},",
+				"          {Garage Area},",
+				"          {Garage Qual},",
+				"          {Garage Cond},",
+				"          {Misc Feature},",
+				"          {Misc Val},",
+				"          {Pool Area},",
+				"          {Pool QC}",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> Duplicados",
+				"Duplicados window(over(PID),",
+				"     asc(PID, true),",
+				"     Indice = rowNumber()) ~> Conteo",
+				"Conteo filter(Indice == 1) ~> filtroduplicados",
+				"filtroduplicados select(mapColumn(",
+				"          PID,",
+				"          {Bsmt Qual},",
+				"          {Bsmt Cond},",
+				"          {Bsmt Exposure},",
+				"          {BsmtFin Type 1},",
+				"          {BsmtFin SF 1},",
+				"          {BsmtFin Type 2},",
+				"          {BsmtFin SF 2},",
+				"          {Bsmt Unf SF},",
+				"          {Total Bsmt SF},",
+				"          {Bsmt Full Bath},",
+				"          {Bsmt Half Bath},",
+				"          Order,",
+				"          {Garage Type},",
+				"          {Garage Yr Blt},",
+				"          {Garage Finish},",
+				"          {Garage Cars},",
+				"          {Garage Area},",
+				"          {Garage Qual},",
+				"          {Garage Cond},",
+				"          {Misc Feature},",
+				"          {Misc Val},",
+				"          {Pool Area},",
+				"          {Pool QC}",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> Eliminarconteo",
+				"Eliminarconteo derive() ~> derivedColumn1"
 			]
 		}
 	}

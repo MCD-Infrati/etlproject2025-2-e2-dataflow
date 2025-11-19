@@ -1,0 +1,15 @@
+{
+	"name": "MongoDbbsmt",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "MongoDbH",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "MongoDbV2Collection",
+		"schema": [],
+		"typeProperties": {
+			"collection": "bsmt"
+		}
+	}
+}

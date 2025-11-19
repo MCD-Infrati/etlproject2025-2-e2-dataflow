@@ -1,0 +1,23 @@
+{
+	"name": "salidasmisc",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "BlobsproyectoFINAL",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "misc.csv",
+				"container": "salida"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}

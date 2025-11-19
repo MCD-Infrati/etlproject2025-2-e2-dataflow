@@ -1,0 +1,23 @@
+{
+	"name": "salidasgarage",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "BlobsproyectoFINAL",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "garage.csv",
+				"container": "salida"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}

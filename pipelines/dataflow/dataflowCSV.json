@@ -13,7 +13,12 @@
 				}
 			],
 			"sinks": [],
-			"transformations": [],
+			"transformations": [
+				{
+					"name": "YearRemodAdd",
+					"description": "Creating/updating the columns Year Remod/Add, ye'"
+				}
+			],
 			"scriptLines": [
 				"source(output(",
 				"          PID as string,",
@@ -34,11 +39,12 @@
 				"          {Overall Qual} as string,",
 				"          {Overall Cond} as string,",
 				"          {Year Built} as string,",
-				"          {Year Remod/Add} as string",
+				"          {Year Remod/Add} as integer",
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> AmsPropertyCSV"
+				"     ignoreNoFilesFound: false) ~> AmsPropertyCSV",
+				"AmsPropertyCSV derive() ~> YearRemodAdd"
 			]
 		}
 	}

@@ -136,6 +136,9 @@
 				},
 				{
 					"name": "join8"
+				},
+				{
+					"name": "derivedColumn2"
 				}
 			],
 			"scriptLines": [
@@ -226,7 +229,7 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> typequality",
-				"amesdbtemp, saleproperty join(amesdbtemp@pid == saleproperty@pid,",
+				"derivedColumn2, saleproperty join(amesdbtemp@pid == saleproperty@pid,",
 				"     joinType:'inner',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
@@ -565,6 +568,7 @@
 				"     ignoreSpaces: false,",
 				"     partitionBy('hash', 1),",
 				"     broadcast: 'auto')~> join8",
+				"amesdbtemp derive({Gr Liv Area} = {1st Flr SF}+{2nd Flr SF}+{Low Qual Fin SF}) ~> derivedColumn2",
 				"selectFinal sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     partitionFileNames:['bdrelacional_final.csv'],",

@@ -36,7 +36,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "Salida",
+						"referenceName": "output_mongo",
 						"type": "DatasetReference"
 					},
 					"name": "sink1"
@@ -215,7 +215,7 @@
 				"     skipDuplicateMapOutputs: true) ~> select2",
 				"derivedColumn1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     partitionFileNames:['Salida'],",
+				"     partitionFileNames:['out_mongo.csv'],",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
 				"     partitionBy('hash', 1)) ~> sink1"

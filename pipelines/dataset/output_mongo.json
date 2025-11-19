@@ -1,5 +1,5 @@
 {
-	"name": "Salida",
+	"name": "output_mongo",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "Almacenamiento_mongoDB",
@@ -10,7 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "Salida.csv",
+				"fileName": "output_mongo.csv",
 				"container": "salida-mongodb"
 			},
 			"columnDelimiter": ",",

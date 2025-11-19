@@ -15,8 +15,10 @@
 			"sinks": [],
 			"transformations": [
 				{
-					"name": "YearRemodAdd",
-					"description": "Creating/updating the columns Year Remod/Add, ye'"
+					"name": "select1"
+				},
+				{
+					"name": "derivedColumn1"
 				}
 			],
 			"scriptLines": [
@@ -38,13 +40,36 @@
 				"          {House Style} as string,",
 				"          {Overall Qual} as string,",
 				"          {Overall Cond} as string,",
-				"          {Year Built} as string,",
+				"          {Year Built} as integer,",
 				"          {Year Remod/Add} as integer",
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> AmsPropertyCSV",
-				"AmsPropertyCSV derive() ~> YearRemodAdd"
+				"AmsPropertyCSV select(mapColumn(",
+				"          PID,",
+				"          {Lot Frontage},",
+				"          {Lot Area},",
+				"          Street,",
+				"          Alley,",
+				"          {Lot Shape},",
+				"          {Land Contour},",
+				"          Utilities,",
+				"          {Lot Config},",
+				"          {Land Slope},",
+				"          Neighborhood,",
+				"          {Condition 1},",
+				"          {Condition 2},",
+				"          {Bldg Type},",
+				"          {House Style},",
+				"          {Overall Qual},",
+				"          {Overall Cond},",
+				"          YearBuilt = {Year Built},",
+				"          YearRemodAdd = {Year Remod/Add}",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1 derive(YearRemodAdd = iif(isNull(toInteger(YearRemodAdd)), YearBuilt, toInteger(YearRemodAdd))) ~> derivedColumn1"
 			]
 		}
 	}

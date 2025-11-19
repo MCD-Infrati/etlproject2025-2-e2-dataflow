@@ -215,7 +215,7 @@
 				"     skipDuplicateMapOutputs: true) ~> select2",
 				"derivedColumn1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     partitionFileNames:['out_mongo.csv'],",
+				"     partitionFileNames:['output_mongo.csv'],",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
 				"     partitionBy('hash', 1)) ~> sink1"

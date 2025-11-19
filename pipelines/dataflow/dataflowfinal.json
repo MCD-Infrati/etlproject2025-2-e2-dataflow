@@ -34,11 +34,14 @@
 				},
 				{
 					"name": "select1"
+				},
+				{
+					"name": "derivedColumn1"
 				}
 			],
 			"scriptLines": [
 				"source(output(",
-				"          PID as integer,",
+				"          PID as string,",
 				"          {Bsmt Qual} as string,",
 				"          {Bsmt Cond} as string,",
 				"          {Bsmt Exposure} as string,",
@@ -50,7 +53,6 @@
 				"          {Total Bsmt SF} as short,",
 				"          {Bsmt Full Bath} as short,",
 				"          {Bsmt Half Bath} as short,",
-				"          Order as short,",
 				"          {Garage Type} as string,",
 				"          {Garage Yr Blt} as short,",
 				"          {Garage Finish} as string,",
@@ -67,7 +69,7 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> source1",
 				"source(output(",
-				"          PID as integer,",
+				"          PID as string,",
 				"          {MS SubClass} as short,",
 				"          {MS Zoning} as string,",
 				"          {Roof Style} as string,",
@@ -116,8 +118,8 @@
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
 				"     broadcast: 'auto')~> join1",
-				"join1 select(mapColumn(",
-				"          PID = source1@PID,",
+				"derivedColumn1 select(mapColumn(",
+				"          PID_unificado,",
 				"          {Bsmt Qual},",
 				"          {Bsmt Cond},",
 				"          {Bsmt Exposure},",
@@ -129,7 +131,6 @@
 				"          {Total Bsmt SF},",
 				"          {Bsmt Full Bath},",
 				"          {Bsmt Half Bath},",
-				"          Order,",
 				"          {Garage Type},",
 				"          {Garage Yr Blt},",
 				"          {Garage Finish},",
@@ -183,6 +184,11 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select1",
+				"join1 derive(PID_unificado = iif(\r",
+				"    !isNull(source1@PID) && source1@PID != '',\r",
+				"    source1@PID,\r",
+				"    source2@PID\r",
+				")) ~> derivedColumn1",
 				"select1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     skipDuplicateMapInputs: true,",

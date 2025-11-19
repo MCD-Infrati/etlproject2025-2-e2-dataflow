@@ -1,0 +1,25 @@
+{
+	"name": "dataflow2",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "input_neon",
+						"type": "DatasetReference"
+					},
+					"name": "fullamesdbtemp",
+					"description": "Data obtenida de la consulta sql de Neon."
+				}
+			],
+			"sinks": [],
+			"transformations": [],
+			"scriptLines": [
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> fullamesdbtemp"
+			]
+		}
+	}
+}

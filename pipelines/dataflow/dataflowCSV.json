@@ -10,15 +10,31 @@
 						"type": "DatasetReference"
 					},
 					"name": "AmsPropertyCSV"
+				},
+				{
+					"dataset": {
+						"referenceName": "neighborhood",
+						"type": "DatasetReference"
+					},
+					"name": "neighborhood"
 				}
 			],
 			"sinks": [],
 			"transformations": [
 				{
-					"name": "select1"
+					"name": "Rename",
+					"description": "Renaming AmsPropertyCSV to columns YearBuilt, YearRemodAdd'"
 				},
 				{
-					"name": "derivedColumn1"
+					"name": "Reemplazafecha",
+					"description": "Creating/updating the columns YearRemodAdd'"
+				},
+				{
+					"name": "join1"
+				},
+				{
+					"name": "select1",
+					"description": "Renaming join1 to '"
 				}
 			],
 			"scriptLines": [
@@ -46,6 +62,13 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> AmsPropertyCSV",
+				"source(output(",
+				"          code as string,",
+				"          description as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> neighborhood",
 				"AmsPropertyCSV select(mapColumn(",
 				"          PID,",
 				"          {Lot Frontage},",
@@ -68,8 +91,38 @@
 				"          YearRemodAdd = {Year Remod/Add}",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select1",
-				"select1 derive(YearRemodAdd = iif(isNull(toInteger(YearRemodAdd)), YearBuilt, toInteger(YearRemodAdd))) ~> derivedColumn1"
+				"     skipDuplicateMapOutputs: true) ~> Rename",
+				"Rename derive(YearRemodAdd = iif(isNull(toInteger(YearRemodAdd)), YearBuilt, toInteger(YearRemodAdd))) ~> Reemplazafecha",
+				"Reemplazafecha, neighborhood join(Neighborhood == description,",
+				"     joinType:'left',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> join1",
+				"join1 select(mapColumn(",
+				"          PID,",
+				"          {Lot Frontage},",
+				"          {Lot Area},",
+				"          Street,",
+				"          Alley,",
+				"          {Lot Shape},",
+				"          {Land Contour},",
+				"          Utilities,",
+				"          {Lot Config},",
+				"          {Land Slope},",
+				"          Neighborhood,",
+				"          {Condition 1},",
+				"          {Condition 2},",
+				"          {Bldg Type},",
+				"          {House Style},",
+				"          {Overall Qual},",
+				"          {Overall Cond},",
+				"          YearBuilt,",
+				"          YearRemodAdd,",
+				"          code,",
+				"          description",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1"
 			]
 		}
 	}

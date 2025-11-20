@@ -605,7 +605,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "input_neon",
+						"referenceName": "input_sql",
 						"type": "DatasetReference"
 					}
 				]

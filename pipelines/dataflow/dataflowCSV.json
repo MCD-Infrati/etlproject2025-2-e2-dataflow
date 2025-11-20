@@ -134,10 +134,17 @@
 				"Tranlotshape derive(Conditon1name = case(\r",
 				"  Condition1 == 'Artery','Adjacent to arterial street',\r",
 				"  Condition1 == 'Feedr','Adjacent to feeder street',\r",
-				"  Condition1 == 'Norm','Normal',\r",
-				"  Condition1 == 'RRNn','Within 200 of North-South Railroad ',\r",
+				"  Condition1 == 'Norm',   'Normal',\r",
+				"  Condition1 == 'RRNn',   'Within 200 of North-South Railroad ',\r",
+				"  Condition1 == 'RRAn',   'Within 200 of North-South Railroad ',\r",
+				"  Condition1 == 'PosN',   'Near positive off-site feature--park greenbelt etc. ',\r",
+				"  Condition1 == 'PosA',   'Adjacent to postive off-site feature ',\r",
+				"  Condition1 == 'RRNe',   'Within 200 of East-West Railroad  ',\r",
+				"  Condition1 == 'RRAe',   'Adjacent to East-West Railroad    ',\r",
+				" \r",
 				"  'Unknown'\r",
-				")) ~> derivedColumn2"
+				")\r",
+				") ~> derivedColumn2"
 			]
 		}
 	}

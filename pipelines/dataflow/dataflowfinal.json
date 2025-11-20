@@ -9,34 +9,47 @@
 						"referenceName": "output_mongo",
 						"type": "DatasetReference"
 					},
-					"name": "source1"
+					"name": "Mongo"
 				},
 				{
 					"dataset": {
 						"referenceName": "output_data",
 						"type": "DatasetReference"
 					},
-					"name": "source2"
+					"name": "BDRelacional"
+				},
+				{
+					"dataset": {
+						"referenceName": "SalidaAmesCSV",
+						"type": "DatasetReference"
+					},
+					"name": "CSV"
 				}
 			],
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "FinalMerge",
+						"referenceName": "output_final",
 						"type": "DatasetReference"
 					},
-					"name": "sink1"
+					"name": "sink1",
+					"description": "Exportar datos a output_final"
 				}
 			],
 			"transformations": [
 				{
-					"name": "join1"
+					"name": "MongoBDRelacional"
 				},
 				{
-					"name": "select1"
+					"name": "EliminarOtrosPID",
+					"description": "Se está cambiando el nombre de PIDUnificado a PID y eliminando las otras columnas de PID"
 				},
 				{
-					"name": "derivedColumn1"
+					"name": "PIDUnificado",
+					"description": "Combinando columnas de PID para dejar una sola columna\n"
+				},
+				{
+					"name": "MongoBDRelacionalCSV"
 				}
 			],
 			"scriptLines": [
@@ -67,7 +80,7 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> source1",
+				"     ignoreNoFilesFound: false) ~> Mongo",
 				"source(output(",
 				"          PID as string,",
 				"          {MS SubClass} as short,",
@@ -112,13 +125,19 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> source2",
-				"source1, source2 join(source1@PID == source2@PID,",
+				"     ignoreNoFilesFound: false) ~> BDRelacional",
+				"source(output(",
+				"          {PID;Lot Frontage;Lot Area;Street;Alley;Lot Shape;Land Contour;Utilities;Lot Config;Land Slope;Neighborhood;Condition 1;Condition 2;Bldg Type;House Style;Overall Qual;Overall Cond;Year Built;Year Remod/Add} as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> CSV",
+				"Mongo, BDRelacional join(Mongo@PID == BDRelacional@PID,",
 				"     joinType:'outer',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
-				"     broadcast: 'auto')~> join1",
-				"derivedColumn1 select(mapColumn(",
+				"     broadcast: 'auto')~> MongoBDRelacional",
+				"PIDUnificado select(mapColumn(",
 				"          PID_unificado,",
 				"          {Bsmt Qual},",
 				"          {Bsmt Cond},",
@@ -183,13 +202,22 @@
 				"          saleprice",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select1",
-				"join1 derive(PID_unificado = iif(\r",
-				"    !isNull(source1@PID) && source1@PID != '',\r",
-				"    source1@PID,\r",
-				"    source2@PID\r",
-				")) ~> derivedColumn1",
-				"select1 sink(allowSchemaDrift: true,",
+				"     skipDuplicateMapOutputs: true) ~> EliminarOtrosPID",
+				"MongoBDRelacionalCSV derive(PID_unificado = iif(\r",
+				"    !isNull(Mongo@PID) && Mongo@PID != '',\r",
+				"    Mongo@PID,\r",
+				"    iif(\r",
+				"        !isNull(BDRelacional@PID) && BDRelacional@PID != '',\r",
+				"        BDRelacional@PID,\r",
+				"        {CSV@PID}\r",
+				"    )\r",
+				")) ~> PIDUnificado",
+				"MongoBDRelacional, CSV join(ERROR_FUNCTION('') == ERROR_FUNCTION(''),",
+				"     joinType:'outer',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> MongoBDRelacionalCSV",
+				"EliminarOtrosPID sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> sink1"

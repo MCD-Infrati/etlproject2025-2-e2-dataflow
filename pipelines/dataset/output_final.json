@@ -1,5 +1,5 @@
 {
-	"name": "FinalMerge",
+	"name": "output_final",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "Almacenamiento_mongoDB",
@@ -10,8 +10,8 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "Final_merge.csv",
-				"container": "salida-mongodb"
+				"fileName": "output_final.csv",
+				"container": "salida-final"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",

@@ -50,25 +50,31 @@
 					"name": "bstmgaragemisc"
 				},
 				{
-					"name": "finalunido"
+					"name": "FinalUnido"
 				},
 				{
-					"name": "select1"
+					"name": "EliminarotrasPID",
+					"description": "Se está cambiando el nombre de UnificarPID y eliminar las otras columnas PID"
 				},
 				{
-					"name": "wnduplicados"
+					"name": "EnumerarPIDrepetidos",
+					"description": "Creando una columna que enumera cuantas veces aparece cada PID"
 				},
 				{
-					"name": "filterduplicados"
+					"name": "Filtrarduplicados",
+					"description": "Se están filtrando las filas mediante la columna creada, para dejar solo los PID que aparecen una única vez"
 				},
 				{
-					"name": "derivedColumn1"
+					"name": "ImputarNulos",
+					"description": "Imputando datos nulos, para variables cualitativas con NA y para varaibles cuantitativas con 0"
 				},
 				{
-					"name": "select2"
+					"name": "EliminarNumeracion",
+					"description": "Eliminar columna de Row_num que sirvió para eliminar duplicados de PID\n"
 				},
 				{
-					"name": "derivedColumn2"
+					"name": "UnificarPID",
+					"description": "Combinar columnas PID para unificar y dejar solo una columna PID"
 				}
 			],
 			"scriptLines": [
@@ -133,8 +139,8 @@
 				"     joinType:'outer',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
-				"     broadcast: 'auto')~> finalunido",
-				"derivedColumn2 select(mapColumn(",
+				"     broadcast: 'auto')~> FinalUnido",
+				"UnificarPID select(mapColumn(",
 				"          PID = PID_Unificado,",
 				"          {Bsmt Qual},",
 				"          {Bsmt Cond},",
@@ -162,12 +168,12 @@
 				"          {Pool QC}",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select1",
-				"select1 window(over(PID),",
+				"     skipDuplicateMapOutputs: true) ~> EliminarotrasPID",
+				"EliminarotrasPID window(over(PID),",
 				"     asc(PID, true),",
-				"     row_num = rowNumber()) ~> wnduplicados",
-				"wnduplicados filter(row_num == 1) ~> filterduplicados",
-				"select2 derive({Bsmt Qual} = iif(isNull({Bsmt Qual}), 'NA', {Bsmt Qual}),",
+				"     row_num = rowNumber()) ~> EnumerarPIDrepetidos",
+				"EnumerarPIDrepetidos filter(row_num == 1) ~> Filtrarduplicados",
+				"EliminarNumeracion derive({Bsmt Qual} = iif(isNull({Bsmt Qual}), 'NA', {Bsmt Qual}),",
 				"          {Bsmt Cond} = iif(isNull({Bsmt Cond}), 'NA', {Bsmt Cond}),",
 				"          {Bsmt Exposure} = iif(isNull({Bsmt Exposure}), 'NA', {Bsmt Exposure}),",
 				"          {BsmtFin Type 1} = iif(isNull({BsmtFin Type 1}), 'NA', {BsmtFin Type 1}),",
@@ -188,8 +194,8 @@
 				"          {Misc Feature} = iif(isNull({Misc Feature}), 'NA', {Misc Feature}),",
 				"          {Misc Val} = iif(isNull({Misc Val}), 0, {Misc Val}),",
 				"          {Pool Area} = iif(isNull({Pool Area}), 0, {Pool Area}),",
-				"          {Pool QC} = iif(isNull({Pool QC}), 'NA', {Pool QC})) ~> derivedColumn1",
-				"filterduplicados select(mapColumn(",
+				"          {Pool QC} = iif(isNull({Pool QC}), 'NA', {Pool QC})) ~> ImputarNulos",
+				"Filtrarduplicados select(mapColumn(",
 				"          PID,",
 				"          {Bsmt Qual},",
 				"          {Bsmt Cond},",
@@ -215,8 +221,8 @@
 				"          {Pool QC}",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select2",
-				"finalunido derive(PID_Unificado = iif(\r",
+				"     skipDuplicateMapOutputs: true) ~> EliminarNumeracion",
+				"FinalUnido derive(PID_Unificado = iif(\r",
 				"    !isNull(bsmt@PID) && bsmt@PID != '',\r",
 				"    bsmt@PID,\r",
 				"    iif(\r",
@@ -228,8 +234,8 @@
 				"            pool@PID\r",
 				"        )\r",
 				"    )\r",
-				")) ~> derivedColumn2",
-				"derivedColumn1 sink(allowSchemaDrift: true,",
+				")) ~> UnificarPID",
+				"ImputarNulos sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     partitionFileNames:['output_mongo.csv'],",
 				"     skipDuplicateMapInputs: true,",

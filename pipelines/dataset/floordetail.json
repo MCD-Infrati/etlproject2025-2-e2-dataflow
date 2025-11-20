@@ -2,10 +2,6 @@
 	"name": "floordetail",
 	"properties": {
 		"description": "Tabla de dimensiones: floordetail (5 columnas) : 4182 filas",
-		"linkedServiceName": {
-			"referenceName": "NeonConn",
-			"type": "LinkedServiceReference"
-		},
 		"annotations": [],
 		"type": "AzurePostgreSqlTable",
 		"schema": [],

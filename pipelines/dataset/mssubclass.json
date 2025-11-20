@@ -2,10 +2,6 @@
 	"name": "mssubclass",
 	"properties": {
 		"description": "Tabla de dimensiones: mssubclass  (2 columnas) : 16 filas",
-		"linkedServiceName": {
-			"referenceName": "NeonConn",
-			"type": "LinkedServiceReference"
-		},
 		"annotations": [],
 		"type": "AzurePostgreSqlTable",
 		"schema": [],

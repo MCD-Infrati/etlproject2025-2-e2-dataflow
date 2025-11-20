@@ -1,0 +1,32 @@
+{
+	"name": "neighborhood",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AmesPropertyCSV",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "code.csv",
+				"container": "amespropertycsv"
+			},
+			"columnDelimiter": ";",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "code",
+				"type": "String"
+			},
+			{
+				"name": "description",
+				"type": "String"
+			}
+		]
+	}
+}

@@ -1,0 +1,600 @@
+{
+	"name": "pipeline1",
+	"properties": {
+		"activities": [
+			{
+				"name": "Data_sql",
+				"description": "Se ejecuta una consulta SQL para realizar los join entre la tabla de hechos y las de dimensiones y se carga el resultado completo en una tabla llamada fullamesdbtemp.",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzurePostgreSqlSource",
+						"query": "SELECT\n  a.*,\n  s.\"Sale Date\",\n  s.\"Sale Type\",\n  s.\"Sale Condition\",\n  s.saleprice,\n  m.code AS \"MS SubClass1\",\n  z.code AS \"MS Zoning1\",\n  tq_kitchen.code AS \"Kitchen Qual1\",\n  tq_exterqual.code AS \"Exter Qual1\",\n  tq_extercond.code AS \"Exter Cond1\",\n  tq_heatingqc.code AS \"Heating QC1\"\nFROM amesdbtemp a\nINNER JOIN saleproperty s\n    ON a.pid = s.pid\nINNER JOIN mssubclass m\n    ON a.\"MS SubClass\" = m.code\nINNER JOIN mszoning z\n    ON a.\"MS Zoning\" = z.id\nINNER JOIN typequality tq_kitchen\n    ON a.\"Kitchen Qual\" = tq_kitchen.id\nINNER JOIN typequality tq_exterqual\n    ON a.\"Exter Qual\" = tq_exterqual.id\nINNER JOIN typequality tq_extercond\n    ON a.\"Exter Cond\" = tq_extercond.id\nINNER JOIN typequality tq_heatingqc\n    ON a.\"Heating QC\" = tq_heatingqc.id",
+						"partitionOption": "None",
+						"queryTimeout": "02:00:00"
+					},
+					"sink": {
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSettings"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "Exter Cond",
+									"type": "Int64",
+									"physicalType": "bigint"
+								},
+								"sink": {
+									"name": "Exter Cond",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Exter Qual",
+									"type": "Int64",
+									"physicalType": "bigint"
+								},
+								"sink": {
+									"name": "Exter Qual",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Heating QC",
+									"type": "Int64",
+									"physicalType": "bigint"
+								},
+								"sink": {
+									"name": "Heating QC",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Kitchen Qual",
+									"type": "Int64",
+									"physicalType": "bigint"
+								},
+								"sink": {
+									"name": "Kitchen Qual",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "MS Zoning",
+									"type": "Int64",
+									"physicalType": "bigint"
+								},
+								"sink": {
+									"name": "MS Zoning",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "pid",
+									"type": "Int64",
+									"physicalType": "bigint"
+								},
+								"sink": {
+									"name": "pid",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Roof Style",
+									"type": "String",
+									"physicalType": "character varying"
+								},
+								"sink": {
+									"name": "Roof Style",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Roof Matl",
+									"type": "String",
+									"physicalType": "character varying"
+								},
+								"sink": {
+									"name": "Roof Matl",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Exterior 1st",
+									"type": "String",
+									"physicalType": "character varying"
+								},
+								"sink": {
+									"name": "Exterior 1st",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Exterior 2nd",
+									"type": "String",
+									"physicalType": "character varying"
+								},
+								"sink": {
+									"name": "Exterior 2nd",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Mas Vnr Type",
+									"type": "String",
+									"physicalType": "character varying"
+								},
+								"sink": {
+									"name": "Mas Vnr Type",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Mas Vnr Area",
+									"type": "Int64",
+									"physicalType": "bigint"
+								},
+								"sink": {
+									"name": "Mas Vnr Area",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "foundation",
+									"type": "String",
+									"physicalType": "character varying"
+								},
+								"sink": {
+									"name": "foundation",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "heating",
+									"type": "String",
+									"physicalType": "character varying"
+								},
+								"sink": {
+									"name": "heating",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Central Air",
+									"type": "Boolean",
+									"physicalType": "boolean"
+								},
+								"sink": {
+									"name": "Central Air",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "electrical",
+									"type": "String",
+									"physicalType": "character varying"
+								},
+								"sink": {
+									"name": "electrical",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "1st Flr SF",
+									"type": "Int64",
+									"physicalType": "bigint"
+								},
+								"sink": {
+									"name": "1st Flr SF",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "2nd Flr SF",
+									"type": "Int64",
+									"physicalType": "bigint"
+								},
+								"sink": {
+									"name": "2nd Flr SF",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Low Qual Fin SF",
+									"type": "Int64",
+									"physicalType": "bigint"
+								},
+								"sink": {
+									"name": "Low Qual Fin SF",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Kitchen AbvGr",
+									"type": "Int64",
+									"physicalType": "bigint"
+								},
+								"sink": {
+									"name": "Kitchen AbvGr",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "TotRms AbvGrd",
+									"type": "Int64",
+									"physicalType": "bigint"
+								},
+								"sink": {
+									"name": "TotRms AbvGrd",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "functional",
+									"type": "String",
+									"physicalType": "character varying"
+								},
+								"sink": {
+									"name": "functional",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "fireplaces",
+									"type": "Int64",
+									"physicalType": "bigint"
+								},
+								"sink": {
+									"name": "fireplaces",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Fireplace Qu",
+									"type": "String",
+									"physicalType": "character varying"
+								},
+								"sink": {
+									"name": "Fireplace Qu",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Paved Drive",
+									"type": "String",
+									"physicalType": "character varying"
+								},
+								"sink": {
+									"name": "Paved Drive",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Wood Deck SF",
+									"type": "Int64",
+									"physicalType": "bigint"
+								},
+								"sink": {
+									"name": "Wood Deck SF",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Open Porch SF",
+									"type": "Int64",
+									"physicalType": "bigint"
+								},
+								"sink": {
+									"name": "Open Porch SF",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Enclosed Porch",
+									"type": "Int64",
+									"physicalType": "bigint"
+								},
+								"sink": {
+									"name": "Enclosed Porch",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "3Ssn Porch",
+									"type": "Int64",
+									"physicalType": "bigint"
+								},
+								"sink": {
+									"name": "3Ssn Porch",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Screen Porch",
+									"type": "Int64",
+									"physicalType": "bigint"
+								},
+								"sink": {
+									"name": "Screen Porch",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "fence",
+									"type": "String",
+									"physicalType": "character varying"
+								},
+								"sink": {
+									"name": "fence",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "MS SubClass",
+									"type": "Int64",
+									"physicalType": "bigint"
+								},
+								"sink": {
+									"name": "MS SubClass",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Sale Date",
+									"type": "DateTime",
+									"physicalType": "timestamp"
+								},
+								"sink": {
+									"name": "Sale Date",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Sale Type",
+									"type": "String",
+									"physicalType": "character varying"
+								},
+								"sink": {
+									"name": "Sale Type",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Sale Condition",
+									"type": "String",
+									"physicalType": "character varying"
+								},
+								"sink": {
+									"name": "Sale Condition",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "saleprice",
+									"type": "Int64",
+									"physicalType": "bigint"
+								},
+								"sink": {
+									"name": "saleprice",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "MS SubClass1",
+									"type": "Int64",
+									"physicalType": "bigint"
+								},
+								"sink": {
+									"name": "MS SubClass1",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "MS Zoning1",
+									"type": "String",
+									"physicalType": "character varying"
+								},
+								"sink": {
+									"name": "MS Zoning1",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Kitchen Qual1",
+									"type": "String",
+									"physicalType": "character varying"
+								},
+								"sink": {
+									"name": "Kitchen Qual1",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Exter Qual1",
+									"type": "String",
+									"physicalType": "character varying"
+								},
+								"sink": {
+									"name": "Exter Qual1",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Exter Cond1",
+									"type": "String",
+									"physicalType": "character varying"
+								},
+								"sink": {
+									"name": "Exter Cond1",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Heating QC1",
+									"type": "String",
+									"physicalType": "character varying"
+								},
+								"sink": {
+									"name": "Heating QC1",
+									"type": "String",
+									"physicalType": "String"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "amesdbtemp",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "input_sql",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Dataflow transformaciones",
+				"description": "Se emplea para realizar las transformaciones del archivo obtenido tras la consulta en SQL.",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "Data_sql",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "dataflow_transformaciones",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"annotations": []
+	}
+}

@@ -1,9 +1,9 @@
 {
-	"name": "pipeline1",
+	"name": "pipeline_Orquestador",
 	"properties": {
 		"activities": [
 			{
-				"name": "Execute Pipeline1",
+				"name": "Execute Pipeline Relacional",
 				"type": "ExecutePipeline",
 				"dependsOn": [],
 				"policy": {
@@ -19,11 +19,11 @@
 				}
 			},
 			{
-				"name": "Execute Pipeline2",
+				"name": "Execute Pipeline Mongo",
 				"type": "ExecutePipeline",
 				"dependsOn": [
 					{
-						"activity": "Execute Pipeline1",
+						"activity": "Execute Pipeline Copy data Mongo",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -42,11 +42,34 @@
 				}
 			},
 			{
-				"name": "Data flow Final",
+				"name": "Execute Pipeline csv",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Execute Pipeline Mongo",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pipelinecsv",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "Data flow final",
 				"type": "ExecuteDataFlow",
 				"dependsOn": [
 					{
-						"activity": "Execute Pipeline2",
+						"activity": "Execute Pipeline csv",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -70,6 +93,29 @@
 						"computeType": "General"
 					},
 					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "Execute Pipeline Copy data Mongo",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Execute Pipeline Relacional",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "copy_data_Mongo",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
 				}
 			}
 		],

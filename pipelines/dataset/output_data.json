@@ -10,7 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "data.csv",
+				"fileName": "bdrelacional_final.csv",
 				"folderPath": "output",
 				"container": "adls-container"
 			},

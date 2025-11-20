@@ -126,7 +126,7 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select1",
-				"select1 derive(LotShape = toString(LotShape)) ~> derivedColumn1"
+				"select1 derive(LotShape = case(     toString(LotShape) == 'Regular', 'Reg',     toString(LotShape) == 'Slightly irregular', 'IR1',     toString(LotShape) == 'Moderately Irregular', 'IR2',     toString(LotShape) == 'Irregular', 'IR3',     'Unknown' )) ~> derivedColumn1"
 			]
 		}
 	}

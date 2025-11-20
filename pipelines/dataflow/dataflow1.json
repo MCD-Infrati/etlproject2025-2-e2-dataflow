@@ -56,7 +56,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "output_neon",
+						"referenceName": "output_data",
 						"type": "DatasetReference"
 					},
 					"name": "sinkbdrelacional",

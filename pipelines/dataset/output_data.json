@@ -1,5 +1,5 @@
 {
-	"name": "output_neon",
+	"name": "output_data",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "BlobProyectoFinal_Bdrelacional",

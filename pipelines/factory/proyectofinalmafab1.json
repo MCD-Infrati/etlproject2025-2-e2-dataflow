@@ -1,0 +1,9 @@
+{
+	"name": "proyectofinalmafab1",
+	"location": "brazilsouth",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "917732e8-23b9-40da-aea7-777a9c225780",
+		"tenantId": "99e1e721-7184-498e-8aff-b2ad4e53c1c2"
+	}
+}

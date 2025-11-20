@@ -240,7 +240,7 @@
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
 				"     partitionBy('hash', 1),",
-				"     broadcast: 'auto')~> join2",
+				"     broadcast: 'off')~> join2",
 				"selectJoin2, selectMssubclass join({MS SubClass} == code_mssubclass,",
 				"     joinType:'inner',",
 				"     matchType:'exact',",

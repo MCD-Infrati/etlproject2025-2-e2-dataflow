@@ -18,7 +18,7 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzurePostgreSqlSource",
-						"query": "SELECT\n  a.*,\n  s.\"Sale Date\",\n  s.\"Sale Type\",\n  s.\"Sale Condition\",\n  s.saleprice,\n  m.code AS \"MS SubClass1\",\n  z.code AS \"MS Zoning1\",\n  tq_kitchen.code AS \"Kitchen Qual1\",\n  tq_exterqual.code AS \"Exter Qual1\",\n  tq_extercond.code AS \"Exter Cond1\",\n  tq_heatingqc.code AS \"Heating QC1\",\n  f.\"Floor\",\n  f.bedrooms,\n  f.\"Full Bath\",\n  f.\"Half Bath\"\nFROM amesdbtemp a\nINNER JOIN saleproperty s\n    ON a.pid = s.pid\nINNER JOIN mssubclass m\n    ON a.\"MS SubClass\" = m.code\nINNER JOIN mszoning z\n    ON a.\"MS Zoning\" = z.id\nINNER JOIN typequality tq_kitchen\n    ON a.\"Kitchen Qual\" = tq_kitchen.id\nINNER JOIN typequality tq_exterqual\n    ON a.\"Exter Qual\" = tq_exterqual.id\nINNER JOIN typequality tq_extercond\n    ON a.\"Exter Cond\" = tq_extercond.id\nINNER JOIN typequality tq_heatingqc\n    ON a.\"Heating QC\" = tq_heatingqc.id",
+						"query": "SELECT\n  a.*,\n  s.\"Sale Date\",\n  s.\"Sale Type\",\n  s.\"Sale Condition\",\n  s.saleprice,\n  m.code AS \"MS SubClass1\",\n  z.code AS \"MS Zoning1\",\n  tq_kitchen.code AS \"Kitchen Qual1\",\n  tq_exterqual.code AS \"Exter Qual1\",\n  tq_extercond.code AS \"Exter Cond1\",\n  tq_heatingqc.code AS \"Heating QC1\"\nFROM amesdbtemp a\nINNER JOIN saleproperty s\n    ON a.pid = s.pid\nINNER JOIN mssubclass m\n    ON a.\"MS SubClass\" = m.code\nINNER JOIN mszoning z\n    ON a.\"MS Zoning\" = z.id\nINNER JOIN typequality tq_kitchen\n    ON a.\"Kitchen Qual\" = tq_kitchen.id\nINNER JOIN typequality tq_exterqual\n    ON a.\"Exter Qual\" = tq_exterqual.id\nINNER JOIN typequality tq_extercond\n    ON a.\"Exter Cond\" = tq_extercond.id\nINNER JOIN typequality tq_heatingqc\n    ON a.\"Heating QC\" = tq_heatingqc.id",
 						"partitionOption": "None",
 						"queryTimeout": "02:00:00"
 					},
@@ -537,54 +537,6 @@
 								},
 								"sink": {
 									"name": "Heating QC1",
-									"type": "String",
-									"physicalType": "String"
-								}
-							},
-							{
-								"source": {
-									"name": "Floor",
-									"type": "Int64",
-									"physicalType": "bigint"
-								},
-								"sink": {
-									"name": "Floor",
-									"type": "String",
-									"physicalType": "String"
-								}
-							},
-							{
-								"source": {
-									"name": "bedrooms",
-									"type": "Int64",
-									"physicalType": "bigint"
-								},
-								"sink": {
-									"name": "bedrooms",
-									"type": "String",
-									"physicalType": "String"
-								}
-							},
-							{
-								"source": {
-									"name": "Full Bath",
-									"type": "Int64",
-									"physicalType": "bigint"
-								},
-								"sink": {
-									"name": "Full Bath",
-									"type": "String",
-									"physicalType": "String"
-								}
-							},
-							{
-								"source": {
-									"name": "Half Bath",
-									"type": "Int64",
-									"physicalType": "bigint"
-								},
-								"sink": {
-									"name": "Half Bath",
 									"type": "String",
 									"physicalType": "String"
 								}

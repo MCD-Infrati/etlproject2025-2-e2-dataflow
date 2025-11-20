@@ -2,6 +2,10 @@
 	"name": "typequality",
 	"properties": {
 		"description": "Tabla de dimensiones: typequality (3 columnas) :  5 filas",
+		"linkedServiceName": {
+			"referenceName": "NeonConn",
+			"type": "LinkedServiceReference"
+		},
 		"annotations": [],
 		"type": "AzurePostgreSqlTable",
 		"schema": [],

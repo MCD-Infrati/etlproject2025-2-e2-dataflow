@@ -34,7 +34,11 @@
 				},
 				{
 					"name": "select1",
-					"description": "Renaming join1 to '"
+					"description": "Renaming"
+				},
+				{
+					"name": "derivedColumn1",
+					"description": "Convertir LotShape en string"
 				}
 			],
 			"scriptLines": [
@@ -104,24 +108,25 @@
 				"          {Lot Area},",
 				"          Street,",
 				"          Alley,",
-				"          {Lot Shape},",
+				"          LotShape = {Lot Shape},",
 				"          {Land Contour},",
 				"          Utilities,",
 				"          {Lot Config},",
 				"          {Land Slope},",
 				"          Neighborhood,",
-				"          {Condition 1},",
-				"          {Condition 2},",
+				"          Neighborhoodcode = code,",
+				"          Condition1 = {Condition 1},",
+				"          Condition2 = {Condition 2},",
 				"          {Bldg Type},",
 				"          {House Style},",
 				"          {Overall Qual},",
 				"          {Overall Cond},",
 				"          YearBuilt,",
-				"          YearRemodAdd,",
-				"          Neighborhoodcode = code",
+				"          YearRemodAdd",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select1"
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1 derive(LotShape = toString(LotShape)) ~> derivedColumn1"
 			]
 		}
 	}

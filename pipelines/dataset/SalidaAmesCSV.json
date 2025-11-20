@@ -10,7 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "salidaamescsv",
+				"fileName": "salidaames.csv",
 				"folderPath": "salida1",
 				"container": "amespropertycsv"
 			},

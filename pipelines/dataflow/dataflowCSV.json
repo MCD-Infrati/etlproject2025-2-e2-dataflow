@@ -30,15 +30,19 @@
 					"description": "Creating/updating the columns YearRemodAdd'"
 				},
 				{
-					"name": "join1"
+					"name": "join1Neigborhood"
 				},
 				{
-					"name": "select1",
-					"description": "Renaming"
+					"name": "ActnombreNeighborhood",
+					"description": "Retirar espacikos columnas"
 				},
 				{
-					"name": "derivedColumn1",
+					"name": "Tranlotshape",
 					"description": "Convertir LotShape en string"
+				},
+				{
+					"name": "derivedColumn2",
+					"description": "Creating/upda"
 				}
 			],
 			"scriptLines": [
@@ -101,8 +105,8 @@
 				"     joinType:'left',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
-				"     broadcast: 'auto')~> join1",
-				"join1 select(mapColumn(",
+				"     broadcast: 'auto')~> join1Neigborhood",
+				"join1Neigborhood select(mapColumn(",
 				"          PID,",
 				"          {Lot Frontage},",
 				"          {Lot Area},",
@@ -125,8 +129,15 @@
 				"          YearRemodAdd",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select1",
-				"select1 derive(LotShape = case(     toString(LotShape) == 'Regular', 'Reg',     toString(LotShape) == 'Slightly irregular', 'IR1',     toString(LotShape) == 'Moderately Irregular', 'IR2',     toString(LotShape) == 'Irregular', 'IR3',     'Unknown' )) ~> derivedColumn1"
+				"     skipDuplicateMapOutputs: true) ~> ActnombreNeighborhood",
+				"ActnombreNeighborhood derive(LotShape = case(     toString(LotShape) == 'Regular', 'Reg',     toString(LotShape) == 'Slightly irregular', 'IR1',     toString(LotShape) == 'Moderately Irregular', 'IR2',     toString(LotShape) == 'Irregular', 'IR3',     'Unknown' )) ~> Tranlotshape",
+				"Tranlotshape derive(Conditon1name = case(\r",
+				"  Condition1 == 'Artery','Adjacent to arterial street',\r",
+				"  Condition1 == 'Feedr','Adjacent to feeder street',\r",
+				"  Condition1 == 'Norm','Normal',\r",
+				"  Condition1 == 'RRNn','Within 200 of North-South Railroad ',\r",
+				"  'Unknown'\r",
+				")) ~> derivedColumn2"
 			]
 		}
 	}

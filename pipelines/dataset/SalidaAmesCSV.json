@@ -2,7 +2,7 @@
 	"name": "SalidaAmesCSV",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "AmesProperty",
+			"referenceName": "AmesPropertyCSV",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
@@ -10,9 +10,11 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"container": "entrada"
+				"fileName": "salidaamescsv",
+				"folderPath": "salida1",
+				"container": "amespropertycsv"
 			},
-			"columnDelimiter": ",",
+			"columnDelimiter": ";",
 			"escapeChar": "\\",
 			"firstRowAsHeader": true,
 			"quoteChar": "\""

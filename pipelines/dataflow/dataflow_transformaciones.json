@@ -46,6 +46,9 @@
 				{
 					"name": "seleccion2",
 					"description": "Eliminar las columnas redundantes"
+				},
+				{
+					"name": "Nuevascolumnas"
 				}
 			],
 			"scriptLines": [
@@ -164,7 +167,7 @@
 				"     ignoreSpaces: false,",
 				"     partitionBy('hash', 1),",
 				"     broadcast: 'auto')~> join1",
-				"join1 select(mapColumn(",
+				"Nuevascolumnas select(mapColumn(",
 				"          PID = Seleccion1@pid,",
 				"          {Roof Style},",
 				"          {Roof Matl},",
@@ -208,6 +211,10 @@
 				"     partitionBy('hash', 1),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> seleccion2",
+				"join1 derive({Gr Liv Area} = {1st Flr SF}+{2nd Flr SF}+{Low Qual Fin SF},",
+				"          MoSold = month({Sale Date}),",
+				"          YrSold = year({Sale Date}),",
+				"     partitionBy('hash', 1)) ~> Nuevascolumnas",
 				"seleccion2 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     skipDuplicateMapInputs: true,",

@@ -28,7 +28,11 @@
 						"type": "DatasetReference"
 					},
 					"name": "sinkbdrelacional",
-					"description": "Se genera el csv de salida."
+					"description": "Se genera el csv de salida.",
+					"rejectedDataLinkedService": {
+						"referenceName": "BlobProyectoFinal_Bdrelacional",
+						"type": "LinkedServiceReference"
+					}
 				}
 			],
 			"transformations": [

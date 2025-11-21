@@ -11,6 +11,10 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pipeline_bdrelacional_VF",
+						"type": "PipelineReference"
+					},
 					"waitOnCompletion": true
 				}
 			},

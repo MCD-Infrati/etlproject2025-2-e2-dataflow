@@ -23,10 +23,6 @@
 			],
 			"sinks": [
 				{
-					"dataset": {
-						"referenceName": "output_data",
-						"type": "DatasetReference"
-					},
 					"name": "sinkbdrelacional",
 					"description": "Se genera el csv de salida de BD Relacional.",
 					"rejectedDataLinkedService": {
@@ -119,7 +115,8 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> floordetail",
+				"     format: 'table',",
+				"     partitionBy('hash', 1)) ~> floordetail",
 				"floordetail aggregate(groupBy(pid),",
 				"     FullBath = sum({Full Bath}),",
 				"          HalfBath = sum({Half Bath}),",

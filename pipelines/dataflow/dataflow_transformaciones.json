@@ -28,7 +28,7 @@
 						"type": "DatasetReference"
 					},
 					"name": "sinkbdrelacional",
-					"description": "Se genera el csv de salida.",
+					"description": "Se genera el csv de salida de BD Relacional.",
 					"rejectedDataLinkedService": {
 						"referenceName": "BlobProyectoFinal_Bdrelacional",
 						"type": "LinkedServiceReference"
@@ -50,7 +50,7 @@
 				},
 				{
 					"name": "selectFinal",
-					"description": "Se agrega solo las columnas que se requieren según el archivo de salida y se eliminan las columnas redundantes"
+					"description": "Se agrega solo las columnas que se requieren según el archivo de salida y se eliminan las columnas redundantes."
 				},
 				{
 					"name": "Nuevascolumnas"

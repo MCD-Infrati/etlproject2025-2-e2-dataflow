@@ -1,0 +1,25 @@
+{
+	"name": "ouput_data",
+	"properties": {
+		"description": "Archivo de salida después de las transformaciones de la base de datos relacional.",
+		"linkedServiceName": {
+			"referenceName": "BlobProyectoFinal_Bdrelacional",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "bdrelacional_final.csv",
+				"folderPath": "output",
+				"container": "adls-container"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}

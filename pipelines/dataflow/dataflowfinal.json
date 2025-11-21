@@ -47,6 +47,9 @@
 				},
 				{
 					"name": "EliminarOtrosPID"
+				},
+				{
+					"name": "nulos"
 				}
 			],
 			"scriptLines": [
@@ -245,7 +248,8 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> EliminarOtrosPID",
-				"EliminarOtrosPID sink(allowSchemaDrift: true,",
+				"EliminarOtrosPID derive() ~> nulos",
+				"nulos sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     partitionFileNames:['output_final.csv'],",
 				"     skipDuplicateMapInputs: true,",

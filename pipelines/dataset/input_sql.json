@@ -2,7 +2,7 @@
 	"name": "input_sql",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "BlobProyectoFinal_Bdrelacional",
+			"referenceName": "Almacenamiento_mongoDB",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
@@ -10,9 +10,8 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "fullamesdbtemp.csv",
-				"folderPath": "input",
-				"container": "adls-container"
+				"fileName": "inputsql.csv",
+				"container": "salida-bdrelacional"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",

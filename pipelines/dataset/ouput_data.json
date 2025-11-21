@@ -3,7 +3,7 @@
 	"properties": {
 		"description": "Archivo de salida después de las transformaciones de la base de datos relacional.",
 		"linkedServiceName": {
-			"referenceName": "BlobProyectoFinal_Bdrelacional",
+			"referenceName": "Almacenamiento_mongoDB",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
@@ -11,9 +11,8 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "bdrelacional_final.csv",
-				"folderPath": "output",
-				"container": "adls-container"
+				"fileName": "outputrelacional.csv",
+				"container": "salida-bdrelacional"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",

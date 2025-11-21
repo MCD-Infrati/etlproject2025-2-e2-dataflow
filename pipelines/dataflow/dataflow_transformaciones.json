@@ -28,11 +28,7 @@
 						"type": "DatasetReference"
 					},
 					"name": "sinkbdrelacional",
-					"description": "Se genera el csv de salida de BD Relacional.",
-					"rejectedDataLinkedService": {
-						"referenceName": "BlobProyectoFinal_Bdrelacional",
-						"type": "LinkedServiceReference"
-					}
+					"description": "Se genera el csv de salida de BD Relacional."
 				}
 			],
 			"transformations": [
@@ -226,7 +222,7 @@
 				"     partitionBy('hash', 1)) ~> Nuevascolumnas",
 				"selectFinal sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     partitionFileNames:['bdrelacional_final.csv'],",
+				"     partitionFileNames:['outputrelacional.csv'],",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
 				"     saveOrder: 1,",

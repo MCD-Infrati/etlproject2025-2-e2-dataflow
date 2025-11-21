@@ -13,10 +13,6 @@
 					"description": "se importa la tabla de hechos: amesdbtemp"
 				},
 				{
-					"dataset": {
-						"referenceName": "saleproperty",
-						"type": "DatasetReference"
-					},
 					"name": "saleproperty",
 					"description": "se importa la tabla saleproperty"
 				},
@@ -29,26 +25,14 @@
 					"description": "se importa la tabla floordetail"
 				},
 				{
-					"dataset": {
-						"referenceName": "mssubclass",
-						"type": "DatasetReference"
-					},
 					"name": "mssubclass",
 					"description": "se importa la tabla mssubclass"
 				},
 				{
-					"dataset": {
-						"referenceName": "mszoning",
-						"type": "DatasetReference"
-					},
 					"name": "mszoning",
 					"description": "se importa la tabla mszoning"
 				},
 				{
-					"dataset": {
-						"referenceName": "typequality",
-						"type": "DatasetReference"
-					},
 					"name": "typequality",
 					"description": "se importa la tabla typequality"
 				}
@@ -189,9 +173,7 @@
 				"          saleprice as long",
 				"     ),",
 				"     allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> saleproperty",
+				"     validateSchema: false) ~> saleproperty",
 				"source(output(",
 				"          pid as long,",
 				"          Floor as long,",
@@ -208,27 +190,21 @@
 				"          code as long",
 				"     ),",
 				"     allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> mssubclass",
+				"     validateSchema: false) ~> mssubclass",
 				"source(output(",
 				"          id as long,",
 				"          description as string,",
 				"          code as string",
 				"     ),",
 				"     allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> mszoning",
+				"     validateSchema: false) ~> mszoning",
 				"source(output(",
 				"          id as long,",
 				"          code as string,",
 				"          description as string",
 				"     ),",
 				"     allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> typequality",
+				"     validateSchema: false) ~> typequality",
 				"derivedColumn2, saleproperty join(amesdbtemp@pid == saleproperty@pid,",
 				"     joinType:'inner',",
 				"     matchType:'exact',",

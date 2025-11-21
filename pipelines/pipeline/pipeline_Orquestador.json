@@ -11,10 +11,6 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"pipeline": {
-						"referenceName": "pipeline_bdrelacional",
-						"type": "PipelineReference"
-					},
 					"waitOnCompletion": true
 				}
 			},

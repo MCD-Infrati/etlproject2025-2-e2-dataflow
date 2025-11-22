@@ -210,7 +210,7 @@
 				"          {Screen Porch},",
 				"          Fence = fence,",
 				"          MoSold,",
-				"          YrSold,",
+				"          {Yr Sold} = YrSold,",
 				"          {Sale Type},",
 				"          {Sale Condition},",
 				"          saleprice",

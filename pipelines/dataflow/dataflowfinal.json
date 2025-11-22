@@ -43,7 +43,7 @@
 					"name": "MongoBDRelacionalCSV"
 				},
 				{
-					"name": "PIDUnificado"
+					"name": "PIDUnificadoFinal"
 				},
 				{
 					"name": "EliminarOtrosPID"
@@ -59,6 +59,9 @@
 				},
 				{
 					"name": "EliminarColumnaConteo"
+				},
+				{
+					"name": "PIDUnificado1"
 				}
 			],
 			"scriptLines": [
@@ -166,14 +169,14 @@
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
 				"     broadcast: 'auto')~> MongoBDRelacional",
-				"MongoBDRelacional, CSV join(BDRelacional@PID == CSV@PID,",
+				"PIDUnificado1, CSV join(PIDUnificado1 == CSV@PID,",
 				"     joinType:'outer',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
 				"     broadcast: 'auto')~> MongoBDRelacionalCSV",
-				"MongoBDRelacionalCSV derive(PIDUnificado = iif(     !isNull(Mongo@PID) && Mongo@PID != '',     Mongo@PID,     iif(         !isNull(BDRelacional@PID) && BDRelacional@PID != '',         BDRelacional@PID,         CSV@PID     ) )) ~> PIDUnificado",
-				"PIDUnificado select(mapColumn(",
-				"          PID = PIDUnificado,",
+				"MongoBDRelacionalCSV derive(PIDUnificadoFinal = coalesce(PIDUnificado1, CSV@PID)) ~> PIDUnificadoFinal",
+				"PIDUnificadoFinal select(mapColumn(",
+				"          PID = PIDUnificadoFinal,",
 				"          {Bsmt Qual},",
 				"          {Bsmt Cond},",
 				"          {Bsmt Exposure},",
@@ -349,6 +352,7 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> EliminarColumnaConteo",
+				"MongoBDRelacional derive(PIDUnificado1 = coalesce(Mongo@PID, BDRelacional@PID)) ~> PIDUnificado1",
 				"EliminarColumnaConteo sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     partitionFileNames:['output_final.csv'],",

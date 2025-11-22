@@ -196,7 +196,7 @@
 				"          {Full Bath} = FullBath,",
 				"          {Half Bath} = HalfBath,",
 				"          Bedroom = {Bedrooms  AbvGr},",
-				"          Kitchen = {Kitchen AbvGr},",
+				"          {Kitchen AbvGr},",
 				"          {Kitchen Qual},",
 				"          {TotRms AbvGrd},",
 				"          Functional = functional,",

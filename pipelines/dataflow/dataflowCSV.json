@@ -51,6 +51,9 @@
 				{
 					"name": "derivedColumn2",
 					"description": "Creating/upda"
+				},
+				{
+					"name": "select1"
 				}
 			],
 			"scriptLines": [
@@ -144,7 +147,30 @@
 				"  Condition1 == 'Adjacent to East-West Railroad',   'RRAe',\r",
 				"  Condition1\r",
 				")) ~> derivedColumn2",
-				"derivedColumn2 sink(allowSchemaDrift: true,",
+				"derivedColumn2 select(mapColumn(",
+				"          PID,",
+				"          {Lot Frontage},",
+				"          {Lot Area},",
+				"          Street,",
+				"          Alley,",
+				"          {Lot Shape} = LotShape,",
+				"          {Land Contour},",
+				"          Utilities,",
+				"          {Lot Config},",
+				"          {Land Slope},",
+				"          Neighborhood,",
+				"          {Condition 1} = Condition1,",
+				"          {Condition 2} = Condition2,",
+				"          {Bldg Type},",
+				"          {House Style},",
+				"          {Overall Qual},",
+				"          {Overall Cond},",
+				"          {Year Built} = YearBuilt,",
+				"          {Year Remod/Add} = YearRemodAdd",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     partitionFileNames:['salidaames.csv'],",
 				"     skipDuplicateMapInputs: true,",

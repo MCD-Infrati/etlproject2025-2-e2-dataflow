@@ -1,0 +1,23 @@
+{
+	"name": "FAmesProperty",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "FAmesPropertycsv",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "AmesProperty.csv",
+				"container": "famespropertycsv"
+			},
+			"columnDelimiter": ";",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}

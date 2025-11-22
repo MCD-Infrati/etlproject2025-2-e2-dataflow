@@ -55,7 +55,7 @@
 					"name": "ConteoDuplicados"
 				},
 				{
-					"name": "FiltroPidUnicos"
+					"name": "FiltroPIDUnicos"
 				},
 				{
 					"name": "EliminarColumnaConteo"
@@ -263,8 +263,8 @@
 				"ImputarNulos window(over(PID),",
 				"     asc(PID, true),",
 				"     Rownum = rowNumber()) ~> ConteoDuplicados",
-				"ConteoDuplicados filter(Rownum == 1) ~> FiltroPidUnicos",
-				"FiltroPidUnicos select(mapColumn(",
+				"ConteoDuplicados filter(Rownum == 1) ~> FiltroPIDUnicos",
+				"FiltroPIDUnicos select(mapColumn(",
 				"          PID,",
 				"          {Bsmt Qual},",
 				"          {Bsmt Cond},",

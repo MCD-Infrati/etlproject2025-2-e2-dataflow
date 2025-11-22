@@ -166,7 +166,7 @@
 				"          {Overall Qual},",
 				"          {Overall Cond},",
 				"          {Year Built} = YearBuilt,",
-				"          {Year Remod/Add} = YearRemodAdd",
+				"          {YearRemod/Add} = YearRemodAdd",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select1",

@@ -355,7 +355,7 @@
 				"MongoBDRelacional derive(PIDUnificado1 = coalesce(Mongo@PID, BDRelacional@PID)) ~> PIDUnificado1",
 				"EliminarColumnaConteo sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     partitionFileNames:['output_final.csv'],",
+				"     partitionFileNames:['salida.csv'],",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
 				"     partitionBy('hash', 1)) ~> sink1"

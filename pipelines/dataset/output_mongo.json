@@ -10,7 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobStorageLocation",
-				"fileName": "output_mongo.csv",
+				"fileName": "salida.csv",
 				"container": "salida-mongodb"
 			},
 			"columnDelimiter": ",",

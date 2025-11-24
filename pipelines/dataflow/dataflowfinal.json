@@ -348,7 +348,7 @@
 				"          {Overall Qual},",
 				"          {Overall Cond},",
 				"          {Year Built},",
-				"          {YearRemod/Add}",
+				"          {Year Remod/Add} = {YearRemod/Add}",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> EliminarColumnaConteo",

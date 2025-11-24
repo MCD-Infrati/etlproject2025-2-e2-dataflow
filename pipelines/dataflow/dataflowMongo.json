@@ -74,13 +74,15 @@
 				},
 				{
 					"name": "PIDUnificadoFinal",
-					"description": "Combinar columnas PID para unificar y dejar solo una columna PID"
+					"description": "entrega PID_unificado2 si existe; si no, entrega pool@PID."
 				},
 				{
-					"name": "UnificarPID1"
+					"name": "UnificarPID1",
+					"description": "Se unifica PID y se incluye la expresión coalesce la cuál ejecuta lo siguiente: entrega bsmt@PID si existe; si no, entrega garage@PID."
 				},
 				{
-					"name": "PIDUnificado2"
+					"name": "PIDUnificado2",
+					"description": "Se unifica PID y se incluye la expresión coalesce la cuál ejecuta lo siguiente: entrega PID_unificado1 si existe; si no, entrega misc@PID."
 				}
 			],
 			"scriptLines": [

@@ -43,7 +43,8 @@
 					"name": "MongoBDRelacionalCSV"
 				},
 				{
-					"name": "PIDUnificadoFinal"
+					"name": "PIDUnificadoFinal",
+					"description": "entrega PIDUnificado1 si existe; si no, entrega CSV@PID."
 				},
 				{
 					"name": "EliminarOtrosPID"
@@ -61,7 +62,8 @@
 					"name": "EliminarColumnaConteo"
 				},
 				{
-					"name": "PIDUnificado1"
+					"name": "PIDUnificado1",
+					"description": "entrega Mongo@PID si existe; si no, entrega BDRelacional@PID."
 				}
 			],
 			"scriptLines": [
